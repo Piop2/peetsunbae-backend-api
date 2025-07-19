@@ -63,6 +63,16 @@ class Book(Enum):
 
 
 def start(access_token: str) -> User:
+    """토큰을 통해 수능선배에서 유저 정보를 가져옵니다.
+
+    해당 패키지의 다른 함수들을 사용하기 위해서 반드시 선행되어야하는 함수입니다.
+
+    Args:
+        access_token (str): 수능선배 유저 토큰
+
+    Returns:
+        User: 유저 데이터
+    """
     response_json: dict[str, Any] = requests.get(
         url="https://peetsunbae.com/dashboard/home/start",
         cookies={"access_token": access_token},
@@ -84,6 +94,19 @@ def start(access_token: str) -> User:
 
 
 def start_word_tests(user: User, book: Book, days: Sequence[Day]) -> tuple[Word, ...]:
+    """테스트할 단어를 가져옵니다
+
+    Args:
+        user (User): 유저 데이터
+        book (Book): 테스트할 영어 단어장
+        days (Sequence[Day]): 테스트할 단어 Day
+
+    Raises:
+        ValueError: 올바르지 않은 단어장 번호
+
+    Returns:
+        tuple[Word, ...]: 단어
+    """
     list_length: int
     book_kind: str
     match book:
@@ -129,6 +152,17 @@ def start_word_tests(user: User, book: Book, days: Sequence[Day]) -> tuple[Word,
 def save_word_test(
     user: User, book: Book, days: Sequence[Day], answers: tuple[Word, ...]
 ) -> None:
+    """테스트 결과를 저장합니다
+
+    Args:
+        user (User): 유저 데이터
+        book (Book): 영어 단어장
+        days (Sequence[Day]): 테스트한 단어 Day
+        answers (tuple[Word, ...]): 테스트 결과
+
+    Raises:
+        ValueError: 올바르지 않은 단어장 번호
+    """
     data: list[dict[str, int | str]] = [answer.to_dict() for answer in answers]
 
     day_informations: list[dict[str, int | bool]] = []
