@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import json
 from enum import Enum, auto
 from dataclasses import dataclass, field
@@ -6,7 +8,14 @@ from typing import Any, Optional, Literal, Sequence
 import requests
 
 
-@dataclass(frozen=True)
+class Book(Enum):
+    WORDMASTER_V2018 = auto()
+    # WORDMASTER_V2022 = auto()
+    # WORDMASTER_HYPER_V2021 = auto()
+    # WORDMASTER_FINAL_V2020 = auto()
+
+
+@dataclass
 class Day:
     number: int
     is_total: bool
@@ -15,22 +24,6 @@ class Day:
         if self.is_total:
             return self.number * 2 - 2
         return self.number * 2 - 1
-
-
-@dataclass(frozen=True)
-class User:
-    access_token: str
-    id: int
-    name: str
-    value: str
-    academy: str
-    location: str
-    job: Optional[str]
-    email: str
-    todoist_api_key: Optional[str]
-    todoist_email: Optional[str]
-    avatar: int
-    filtered_location: Optional[str]
 
 
 @dataclass
@@ -55,11 +48,20 @@ class Word:
         }
 
 
-class Book(Enum):
-    WORDMASTER_V2018 = auto()
-    # WORDMASTER_V2022 = auto()
-    # WORDMASTER_HYPER_V2021 = auto()
-    # WORDMASTER_FINAL_V2020 = auto()
+@dataclass
+class User:
+    access_token: str
+    id: int
+    name: str
+    value: str
+    academy: str
+    location: str
+    job: Optional[str]
+    email: str
+    todoist_api_key: Optional[str]
+    todoist_email: Optional[str]
+    avatar: int
+    filtered_location: Optional[str]
 
 
 def start(access_token: str) -> User:
