@@ -10,20 +10,16 @@ target_days: list[Day] = []
 days_str: list[str] = input(">>> ").split()
 
 for day_str in days_str:
-    for i in range(len(day_str)):
-        if day_str[0:i].isnumeric():
-            continue
+    is_total: bool
+    match day_str[-1:]:
+        case "a":
+            is_total = True
+        case "w":
+            is_total = False
+        case _:
+            raise RuntimeError
 
-        is_total: bool
-        match day_str[i:0]:
-            case "a":
-                is_total = True
-            case "w":
-                is_total = False
-            case _:
-                raise RuntimeError
-
-        target_days.append(Day(int(day_str[0:i]), is_total))
+    target_days.append(Day(int(day_str[0:-1]), is_total))
 
 token: str
 with open("config.toml", "rb") as file:
